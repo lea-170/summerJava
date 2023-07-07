@@ -17,7 +17,7 @@ public class GestionnaireAdmin {
     private Admin admin = new Admin();
     
     // methode permettant de faire le login de l'admin    
-    public Admin login(String login,String pwd) throws SQLException{
+    public Admin loginAdmin(String login,String pwd) throws SQLException{
             
         return admin.getByLoginAndPassword(login, pwd);
         

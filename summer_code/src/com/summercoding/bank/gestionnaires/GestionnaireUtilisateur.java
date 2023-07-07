@@ -18,7 +18,7 @@ public class GestionnaireUtilisateur {
     private Utilisateur user = new Utilisateur();
     
    // methode permettant de faire le login d'un utilisateur 
-    public Utilisateur login(String login,String pwd) throws SQLException{
+    public Utilisateur loginUser(String login,String pwd) throws SQLException{
         
         return user.getByLoginAndPassword(login, pwd);
                 

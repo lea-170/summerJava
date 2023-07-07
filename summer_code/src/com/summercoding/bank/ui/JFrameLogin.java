@@ -6,6 +6,7 @@ package com.summercoding.bank.ui;
 
 import com.summercoding.bank.controlleur.Controlleur;
 import com.summercoding.bank.entities.Admin;
+import com.summercoding.bank.entities.Utilisateur;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,6 +44,7 @@ public class JFrameLogin extends javax.swing.JFrame {
         champPassword = new javax.swing.JPasswordField();
         OkButton = new javax.swing.JButton();
         CancelButton = new javax.swing.JButton();
+        ComboBoxAdminOrUser = new javax.swing.JComboBox<>();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -66,10 +68,23 @@ public class JFrameLogin extends javax.swing.JFrame {
             }
         });
 
+        ComboBoxAdminOrUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
+        ComboBoxAdminOrUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxAdminOrUserActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(OkButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(CancelButton)
+                .addGap(20, 20, 20))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -81,13 +96,11 @@ public class JFrameLogin extends javax.swing.JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(champPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(6, 6, 6))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(OkButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(CancelButton)
-                .addGap(20, 20, 20))
+                .addComponent(ComboBoxAdminOrUser, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,6 +113,8 @@ public class JFrameLogin extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(champPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addComponent(ComboBoxAdminOrUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(OkButton)
@@ -126,14 +141,31 @@ public class JFrameLogin extends javax.swing.JFrame {
             // TODO add your handling code here:
             String login = champLogin.getText();
             String pwd = champPassword.getText();
+            String status = ComboBoxAdminOrUser.getSelectedItem().toString();
+           
             
-            Admin admin = controlleur.routeVersLogin(login, pwd);
+            if(status.equals("Admin")){
+                 Admin admin = controlleur.routeVersLoginAdmin(login, pwd);
+                 
+                if(admin == null){
+                    JOptionPane.showMessageDialog(null, "Login or Password incorrect");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Sucess");
+                }
             
-            if(admin == null){
-                JOptionPane.showMessageDialog(null, "Login or Password incorrect");
             }else{
-                JOptionPane.showMessageDialog(null, "Sucess");
+                Utilisateur user = controlleur.routeVersLoginUser(login, pwd);
+                
+                if(user==null){
+                    
+                    JOptionPane.showMessageDialog(null, "Login or Pssword incorrect");
+                }else{
+                     JOptionPane.showMessageDialog(null, "Sucess");
+                }
             }
+            champLogin.setText("");
+            champPassword.setText("");
             
         } catch (SQLException ex) {
             Logger.getLogger(JFrameLogin.class.getName()).log(Level.SEVERE, null, ex);
@@ -147,6 +179,10 @@ public class JFrameLogin extends javax.swing.JFrame {
         
         this.dispose();
     }//GEN-LAST:event_CancelButtonActionPerformed
+
+    private void ComboBoxAdminOrUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxAdminOrUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboBoxAdminOrUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,6 +221,7 @@ public class JFrameLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelButton;
+    private javax.swing.JComboBox<String> ComboBoxAdminOrUser;
     private javax.swing.JButton OkButton;
     private javax.swing.JTextField champLogin;
     private javax.swing.JPasswordField champPassword;

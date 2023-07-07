@@ -52,7 +52,6 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
          try {
              // recupere l'id de l'utilisateur entrer dans le item et donne ses informations qui sont dans la bd
              String iduserString = comboBoxIduser.getSelectedItem().toString().split(" ")[0];
-              System.out.println(iduserString);
              int iduser = Integer.parseInt(iduserString);
              
              Utilisateur user = controlleur.routeVersGetUtilisateurIduser(iduser);

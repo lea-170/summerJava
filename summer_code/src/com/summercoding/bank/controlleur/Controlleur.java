@@ -22,9 +22,10 @@ public class Controlleur {
    GestionnaireAdmin gestionnaireAdmin = new GestionnaireAdmin();
    GestionnaireUtilisateur gestionnaireUser = new GestionnaireUtilisateur();
    GestionnaireCompte gestionnaireCompte = new GestionnaireCompte();
-   // methode permettant gerer le login de l'administrateur  
-   public Admin routeVersLogin(String login,String pwd) throws SQLException{
-       return gestionnaireAdmin.login(login, pwd);  
+   
+// methode permettant gerer le login de l'administrateur  
+   public Admin routeVersLoginAdmin(String login,String pwd) throws SQLException{
+       return gestionnaireAdmin.loginAdmin(login, pwd);  
    }
    
    public void routeVersSaveAdmin(String login,String password,String nom) throws SQLException{
@@ -65,5 +66,11 @@ public class Controlleur {
        
        return gestionnaireAdmin.getAdminIdadmin(idadmin);
        
+   }
+   
+   // route vers le gestionnaire utilisateur chargee du login et du password 
+   public Utilisateur routeVersLoginUser(String login , String pwd) throws SQLException{
+       
+       return gestionnaireUser.loginUser(login,pwd);
    }
 }
