@@ -17,8 +17,11 @@ import javax.swing.JOptionPane;
  * @author Black Baby
  */
 public class JFrameLogin extends javax.swing.JFrame {
-    
+    // cretion d'un objet controlleur
     Controlleur controlleur = new Controlleur();
+    
+    //creation d'un objet JframeHome
+    JFrameHome homepage = new JFrameHome();
     
     /**
      * Creates new form JFrameLogin
@@ -143,29 +146,40 @@ public class JFrameLogin extends javax.swing.JFrame {
             String pwd = champPassword.getText();
             String status = ComboBoxAdminOrUser.getSelectedItem().toString();
            
-            
-            if(status.equals("Admin")){
-                 Admin admin = controlleur.routeVersLoginAdmin(login, pwd);
-                 
-                if(admin == null){
-                    JOptionPane.showMessageDialog(null, "Login or Password incorrect");
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "Sucess");
-                }
-            
+            if(login.equals("") || pwd.equals("")){
+                JOptionPane.showMessageDialog(null,"Veillez entrer s'il vous plait toutes inforamtions demandées");
             }else{
-                Utilisateur user = controlleur.routeVersLoginUser(login, pwd);
+               
+                if(status.equals("Admin")){
+                    Admin admin = controlleur.routeVersLoginAdmin(login, pwd);
+                 
+                    if(admin == null){
+                        JOptionPane.showMessageDialog(null, "Login or Password incorrect");
+                    }
+                    else{
+                       // JOptionPane.showMessageDialog(null, "Sucess");
+                        this.setVisible(false);
+                        homepage.setVisible(true);
+                    }
+            
+                 }else{
+                     Utilisateur user = controlleur.routeVersLoginUser(login, pwd);
                 
-                if(user==null){
+                     if(user==null){
                     
-                    JOptionPane.showMessageDialog(null, "Login or Pssword incorrect");
-                }else{
-                     JOptionPane.showMessageDialog(null, "Sucess");
-                }
+                        JOptionPane.showMessageDialog(null, "Login or Pssword incorrect");
+                    }else{
+                        //JOptionPane.showMessageDialog(null, "Sucess");
+                        
+                        this.setVisible(false);
+                        homepage.setVisible(true);
+                    }
+                   
+                 }
+                champLogin.setText("");
+                champPassword.setText("");
             }
-            champLogin.setText("");
-            champPassword.setText("");
+            
             
         } catch (SQLException ex) {
             Logger.getLogger(JFrameLogin.class.getName()).log(Level.SEVERE, null, ex);

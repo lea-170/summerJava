@@ -73,4 +73,9 @@ public class Controlleur {
        
        return gestionnaireUser.loginUser(login,pwd);
    }
+   
+   //route vers le gestionnaire admin chargee de l'update 
+   public void routeVersUpdateAdmin(int idadmin,String login,String password,String nom) throws SQLException{
+       gestionnaireAdmin.updateAdmin(idadmin,login, password, nom);
+   }
 }

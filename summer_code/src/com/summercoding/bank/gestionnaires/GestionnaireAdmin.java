@@ -39,4 +39,10 @@ public class GestionnaireAdmin {
         
         return admin.getOne(idadmin);
     }
+    
+    //methode permetttant de faire le update 
+    public void updateAdmin(int iadmin,String login,String password , String nom) throws SQLException{
+        
+        admin.update(iadmin, login, password, nom);
+    }
 }

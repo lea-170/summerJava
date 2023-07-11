@@ -143,7 +143,7 @@ public class Admin {
     // affichage 
     public List<Admin> getAllAdmin() throws SQLException{
         
-        String cmd = "select * from admin";
+        String cmd = "select * from admin order by idadmin desc";
         
         PreparedStatement stmt
                 = JDBC.getConnexion().prepareStatement(cmd);
