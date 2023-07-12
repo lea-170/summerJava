@@ -58,6 +58,20 @@ public class JFrameAdmin extends javax.swing.JFrame {
                     Logger.getLogger(JFrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            
+          /*  if(quelaction.equalsIgnoreCase("Delete")){
+                
+                try {
+                    Admin admin = controlleur.routeVersGetAdminIdadmin(idadmin);
+                    
+                    champLogin.setText(admin.getLogin());
+                    champNom.setText(admin.getNom());
+                    champPassword.setText(admin.getPassword());
+                    champIdAdmin.setText(admin.getIdadmin()+"");
+                } catch (SQLException ex) {
+                    Logger.getLogger(JFrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }*/
         }
     }
 
@@ -107,6 +121,11 @@ public class JFrameAdmin extends javax.swing.JFrame {
         });
 
         buttonDelete.setText("Delete");
+        buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDeleteActionPerformed(evt);
+            }
+        });
 
         buttonUpdate.setText("Update");
         buttonUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -220,8 +239,6 @@ public class JFrameAdmin extends javax.swing.JFrame {
             champPassword.setText("");
             champNom.setText("");
             
-            controlleur.routeVersSaveAdmin(login, password, nom);
-            
             this.dispose();
             
             //refresh table 
@@ -262,6 +279,26 @@ public class JFrameAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Veuillez contacter l'administrateur");
         }
     }//GEN-LAST:event_buttonUpdateActionPerformed
+
+    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
+         try {
+            // TODO add your handling code here:
+            
+            String id = champIdAdmin.getText();
+            int idadmin = Integer.parseInt(id);
+            
+            controlleur.routeVersDeleteAdmin(idadmin);
+            
+            this.dispose();
+            
+            //mise a jour de la table
+            refreshTable();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Impossible de supprimer cet administrateur il est lie a un utilisateur");
+        }
+    }//GEN-LAST:event_buttonDeleteActionPerformed
 
     /**
      * @param args the command line arguments

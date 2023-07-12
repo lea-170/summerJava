@@ -5,6 +5,7 @@
 package com.summercoding.bank.controlleur;
 
 import com.summercoding.bank.entities.Admin;
+import com.summercoding.bank.entities.Compte;
 import com.summercoding.bank.entities.Utilisateur;
 import com.summercoding.bank.gestionnaires.GestionnaireAdmin;
 import com.summercoding.bank.gestionnaires.GestionnaireCompte;
@@ -77,5 +78,40 @@ public class Controlleur {
    //route vers le gestionnaire admin chargee de l'update 
    public void routeVersUpdateAdmin(int idadmin,String login,String password,String nom) throws SQLException{
        gestionnaireAdmin.updateAdmin(idadmin,login, password, nom);
+   }
+   
+   //route vers le gestionnaire utilisateur chargee du delete 
+   public void routeVersDeleteAdmin(int idadmin) throws SQLException{
+       
+       gestionnaireAdmin.deleteAdmin(idadmin);
+   }
+   
+   public void routeVersUpdateUser(int iduser,String login, String password,String nom,String prenom, LocalDate datenaiss,String genre,int idadmin) throws SQLException{
+       gestionnaireUser.updateUser(iduser,login, password, nom, prenom, datenaiss, genre, idadmin);
+   }
+   
+   public List<Compte> routeVersListAllCompte() throws SQLException{
+       
+       return gestionnaireCompte.listAllCompte();
+   }
+   
+   public void routeVersUpdateCompte(int idcompte,float solde,int iduser,int idadmin) throws SQLException{
+       
+       gestionnaireCompte.updateCompte(idcompte, solde, iduser, idadmin);
+   }
+   
+   public Compte routeVersGetDetailsCompte(int idcompte) throws SQLException{
+       
+       return gestionnaireCompte.getDetailsCompte(idcompte);
+   }
+   
+   public void routeVersDeleteCompte(int idcompte) throws SQLException{
+       
+       gestionnaireCompte.deleteCompte(idcompte);
+   }
+   
+   public void routeVersDeleteUser(int iduser) throws SQLException{
+       
+       gestionnaireUser.deleteUser(iduser);
    }
 }

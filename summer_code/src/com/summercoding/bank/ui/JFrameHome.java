@@ -6,11 +6,13 @@ package com.summercoding.bank.ui;
 
 import com.summercoding.bank.controlleur.Controlleur;
 import com.summercoding.bank.entities.Admin;
+import com.summercoding.bank.entities.Compte;
 import com.summercoding.bank.entities.Utilisateur;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -23,12 +25,6 @@ public class JFrameHome extends javax.swing.JFrame {
     
     // ceration de l'objet controlleur
     Controlleur controlleur = new Controlleur();
-       
-    // Creation de l'objet jframe saveUtilisateur 
-    JFrameSaveUtilisateur saveUser = new JFrameSaveUtilisateur();
-    
-    //creation de l'objet jframe saveCompte 
-    JFrameSaveCompte saveCompte = new JFrameSaveCompte();
     
     String quelmenu;
     
@@ -112,6 +108,11 @@ public class JFrameHome extends javax.swing.JFrame {
         jScrollPane2.setViewportView(table);
 
         jMenu6.setText("Admin");
+        jMenu6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu6MouseClicked(evt);
+            }
+        });
 
         menuCreerAdmin.setText("Créer");
         menuCreerAdmin.addActionListener(new java.awt.event.ActionListener() {
@@ -132,6 +133,11 @@ public class JFrameHome extends javax.swing.JFrame {
         jMenuBar2.add(jMenu6);
 
         jMenu7.setText("User");
+        jMenu7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu7MouseClicked(evt);
+            }
+        });
 
         menuCreerUser.setText("Créer");
         menuCreerUser.addActionListener(new java.awt.event.ActionListener() {
@@ -154,6 +160,11 @@ public class JFrameHome extends javax.swing.JFrame {
         jMenu8.setText("Compte");
 
         menuCreerCompte.setText("Créer");
+        menuCreerCompte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuCreerCompteActionPerformed(evt);
+            }
+        });
         jMenu8.add(menuCreerCompte);
 
         menuListerCompte.setText("Lister");
@@ -179,8 +190,7 @@ public class JFrameHome extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -194,8 +204,13 @@ public class JFrameHome extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuListerUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuListerUserActionPerformed
+        
+           
+        quelmenu = "User";
+        
         try {
             // TODO add your handling code here:
+         
             
             // appeler de la methode routeVersListAllutilisateur
             List<Utilisateur> listUser  = controlleur.routeVersListAllUtilisateur();
@@ -205,12 +220,17 @@ public class JFrameHome extends javax.swing.JFrame {
             
             // initialisation des colonnes de notre table 
             modelUser.addColumn("Id");
-            modelUser.addColumn("Nom");
             modelUser.addColumn("Login");
+            modelUser.addColumn("Nom");
+            modelUser.addColumn("Prenom");
+            modelUser.addColumn("Genre");
+            modelUser.addColumn("Date");
+            modelUser.addColumn("Idadmin");
+            
             
             //parcours de la bd pour recuperer la liste des utilisateurs (id,nom,login)
             for(Utilisateur us : listUser){
-                modelUser.addRow(new String[]{us.getIduser()+"", us.getNom(), us.getLogin()});
+                modelUser.addRow(new String[]{us.getIduser()+"", us.getLogin(), us.getNom(),us.getPrenom(),us.getGenre(),us.getDatenaiss()+"",us.getIdAdmin()+""});
             }
             table.setModel(modelUser);
             
@@ -234,9 +254,10 @@ public class JFrameHome extends javax.swing.JFrame {
 
     private void menuCreerUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCreerUserActionPerformed
         // TODO add your handling code here:
-        
+    
         // ouverture de la page saveUser 
-        saveUser.setVisible(true);
+        new JFrameSaveUtilisateur("Add", 0, this).setVisible(true);
+      
     }//GEN-LAST:event_menuCreerUserActionPerformed
 
     private void menuListerAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuListerAdminActionPerformed
@@ -269,7 +290,30 @@ public class JFrameHome extends javax.swing.JFrame {
     }//GEN-LAST:event_menuListerAdminActionPerformed
 
     private void menuListerCompteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuListerCompteActionPerformed
-        // TODO add your handling code here:
+        
+        quelmenu = "Compte";
+        try {
+            // TODO add your handling code here:
+            
+            List<Compte> listCompte = controlleur.routeVersListAllCompte();
+            
+            DefaultTableModel modelCompte = new DefaultTableModel();
+            
+            modelCompte.addColumn("Id");
+            modelCompte.addColumn("Solde");
+            modelCompte.addColumn("Id user");
+            modelCompte.addColumn("Id admin");
+            
+            for(Compte com : listCompte){
+                
+                modelCompte.addRow(new String[]{com.getIdcompte()+"",com.getSolde()+"",com.getIduser()+"",com.getIdadmin()+""});
+            }
+            
+            table.setModel(modelCompte);
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrameHome.class.getName()).log(Level.SEVERE, null, ex);
+           
+        }
     }//GEN-LAST:event_menuListerCompteActionPerformed
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
@@ -277,18 +321,64 @@ public class JFrameHome extends javax.swing.JFrame {
         
         int numeroLigne = table.getSelectedRow();
         TableModel model = table.getModel();
-        
+       
+        //cas ou le menu c'est l'admin
+
         if(quelmenu.equals("Admin")){
             
             //lecture d'une celllule du tableau
-            String id = model.getValueAt(numeroLigne, 0).toString();
-            int idadmin = Integer.parseInt(id);
+            String idAdminString = model.getValueAt(numeroLigne, 0).toString();
+            int idadmin = Integer.parseInt(idAdminString);
             
             JFrameAdmin jFrameAdmin = 
                     new JFrameAdmin("Update", idadmin, this);
             jFrameAdmin.setVisible(true);
         }
+        else{
+            
+            //cas ou le menu c'est l'user
+             if(quelmenu.equals("User")){
+                String idUserString = model.getValueAt(numeroLigne, 0).toString();
+            
+                int iduser = Integer.parseInt(idUserString);
+            
+                JFrameSaveUtilisateur jFrameUser = new JFrameSaveUtilisateur("Update", iduser, this);
+            
+                jFrameUser.setVisible(true);
+            }
+             else{
+                 //cas ou le menu c'est le compte 
+                 if(quelmenu.equals("Compte")){
+                     
+                     String idCompteString = model.getValueAt(numeroLigne, 0).toString();
+                     
+                     int idcompte = Integer.parseInt(idCompteString);
+                     
+                     JFrameSaveCompte jFrameCompte = new JFrameSaveCompte("Update", idcompte, this);
+                     
+                     jFrameCompte.setVisible(true);
+                 }
+             }
+        }
+        
+       
+        
     }//GEN-LAST:event_tableMouseClicked
+
+    private void jMenu7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu7MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu7MouseClicked
+
+    private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu6MouseClicked
+
+    private void menuCreerCompteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCreerCompteActionPerformed
+        // TODO add your handling code here:
+        
+        // ouverture du jframe save compte 
+        new JFrameSaveCompte("Add", 0, this).setVisible(true);
+    }//GEN-LAST:event_menuCreerCompteActionPerformed
 
     /**
      * @param args the command line arguments

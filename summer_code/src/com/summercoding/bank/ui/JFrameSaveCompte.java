@@ -6,11 +6,14 @@ package com.summercoding.bank.ui;
 
 import com.summercoding.bank.controlleur.Controlleur;
 import com.summercoding.bank.entities.Admin;
+import com.summercoding.bank.entities.Compte;
 import com.summercoding.bank.entities.Utilisateur;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,12 +21,53 @@ import javax.swing.JOptionPane;
  */
 public class JFrameSaveCompte extends javax.swing.JFrame {
      Controlleur controlleur = new Controlleur();
+     
+      JFrameHome homepage ;
+      
+      String quelaction;
     /**
      * Creates new form JFrameSaveCompte
+     * @param action
+     * @param idcompte
+     * @param hp
      */
-    public JFrameSaveCompte() {
+    public JFrameSaveCompte(String action,int idcompte , JFrameHome hp) {
              initComponents();
-             initOthersComponents();
+             initOthersComponents(); 
+             
+             homepage = hp;
+             
+             quelaction = action;
+             
+             if(quelaction.equals("Add")){
+                 
+                 buttonDelete.setVisible(false);
+                 buttonUpdate.setVisible(false);
+                 labelIdCompte.setVisible(false);
+                 champIdcompte.setVisible(false);
+                 
+             } else{
+                 
+                 if(quelaction.equals("Update")){
+                     
+                     try {
+                         Compte compte = controlleur.routeVersGetDetailsCompte(idcompte);
+                         
+                         champSolde.setText(compte.getSolde()+"");
+                         champIdcompte.setText(compte.getIdcompte()+"");
+                         
+                         Utilisateur user = controlleur.routeVersGetUtilisateurIduser(compte.getIduser());
+                         comboBoxIduser.setSelectedItem(user.getIduser() + " " + user.getLogin());
+                         
+                         Admin admin = controlleur.routeVersGetAdminIdadmin(user.getIdAdmin());
+                         comboBoxIdadmin.setSelectedItem(admin.getIdadmin()+ " " + admin.getLogin());
+                         
+                     } catch (SQLException ex) {
+                         Logger.getLogger(JFrameSaveCompte.class.getName()).log(Level.SEVERE, null, ex);
+                     }
+                     
+                 }
+             }
     }
     
     // methode pour les autres composants 
@@ -86,8 +130,12 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
         champSolde = new javax.swing.JTextField();
         comboBoxIduser = new javax.swing.JComboBox<>();
         comboBoxIdadmin = new javax.swing.JComboBox<>();
-        buttonOk = new javax.swing.JButton();
+        buttonAdd = new javax.swing.JButton();
         buttonCancel = new javax.swing.JButton();
+        buttonDelete = new javax.swing.JButton();
+        buttonUpdate = new javax.swing.JButton();
+        labelIdCompte = new javax.swing.JLabel();
+        champIdcompte = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,10 +151,10 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
             }
         });
 
-        buttonOk.setText("OK");
-        buttonOk.addActionListener(new java.awt.event.ActionListener() {
+        buttonAdd.setText("Add");
+        buttonAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonOkActionPerformed(evt);
+                buttonAddActionPerformed(evt);
             }
         });
 
@@ -117,28 +165,48 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
             }
         });
 
+        buttonDelete.setText("Delete");
+        buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDeleteActionPerformed(evt);
+            }
+        });
+
+        buttonUpdate.setText("Update");
+        buttonUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonUpdateActionPerformed(evt);
+            }
+        });
+
+        labelIdCompte.setText("Id compte ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelIdCompte, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
+                    .addComponent(buttonAdd))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(buttonDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                        .addComponent(buttonUpdate)
+                        .addGap(32, 32, 32)
+                        .addComponent(buttonCancel))
                     .addComponent(champSolde)
                     .addComponent(comboBoxIduser, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboBoxIdadmin, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(comboBoxIdadmin, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(champIdcompte))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addComponent(buttonOk)
-                .addGap(18, 18, 18)
-                .addComponent(buttonCancel)
-                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,12 +221,23 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboBoxIdadmin, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(22, 22, 22))
+                    .addComponent(comboBoxIdadmin))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(champIdcompte, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                        .addGap(38, 38, 38))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(labelIdCompte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(41, 41, 41)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonOk)
-                    .addComponent(buttonCancel))
+                    .addComponent(buttonAdd)
+                    .addComponent(buttonCancel)
+                    .addComponent(buttonUpdate)
+                    .addComponent(buttonDelete))
                 .addGap(15, 15, 15))
         );
 
@@ -166,7 +245,9 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,7 +257,7 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkActionPerformed
+    private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
          try {
              // TODO add your handling code here:
              
@@ -192,14 +273,18 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
           
              
              controlleur.routeVersSaveCompte(solde, iduser, idAdmin);
-             JOptionPane.showMessageDialog(null, "Enresgistrement reussi");
+             //JOptionPane.showMessageDialog(null, "Enresgistrement reussi");
+             
              
              champSolde.setText("");
              
+             this.dispose();
+             
+             refreshtable();
          } catch (SQLException ex) {
              Logger.getLogger(JFrameSaveCompte.class.getName()).log(Level.SEVERE, null, ex);
          }
-    }//GEN-LAST:event_buttonOkActionPerformed
+    }//GEN-LAST:event_buttonAddActionPerformed
 
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
         // TODO add your handling code here:
@@ -210,6 +295,56 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
         // TODO add your handling code here:
         idadminSelonIduser();
     }//GEN-LAST:event_comboBoxIduserActionPerformed
+
+    private void buttonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateActionPerformed
+         try {
+             // TODO add your handling code here:
+
+             
+             String  soldeString = champSolde.getText();
+             float solde = Float.parseFloat(soldeString);
+             
+             String idAdminString =  comboBoxIdadmin.getSelectedItem().toString().split(" ")[0];
+             int idAdmin = Integer.parseInt(idAdminString);
+             
+             
+             String iduserString =  comboBoxIduser.getSelectedItem().toString().split(" ")[0];
+             int iduser = Integer.parseInt(iduserString);
+             
+             
+             controlleur.routeVersUpdateCompte(idAdmin, solde, iduser, idAdmin);
+             //JOptionPane.showMessageDialog(null, "Enresgistrement reussi");
+             
+             this.dispose();
+             
+             refreshtable();
+             
+             champSolde.setText("");
+         } catch (SQLException ex) {
+             Logger.getLogger(JFrameSaveCompte.class.getName()).log(Level.SEVERE, null, ex);
+         }
+             
+        
+        
+    }//GEN-LAST:event_buttonUpdateActionPerformed
+
+    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
+         try {
+             // TODO add your handling code here:
+             
+             String idCompteString = champIdcompte.getText();
+             
+             int idcompte = Integer.parseInt(idCompteString);
+             
+             controlleur.routeVersDeleteCompte(idcompte);
+             
+             refreshtable();
+             
+         } catch (SQLException ex) {
+             Logger.getLogger(JFrameSaveCompte.class.getName()).log(Level.SEVERE, null, ex);
+             JOptionPane.showMessageDialog(null, "Desole ce compte ne peut etre supprimé");
+         }
+    }//GEN-LAST:event_buttonDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -241,14 +376,36 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JFrameSaveCompte().setVisible(true);
+                new JFrameSaveCompte("Add",0,null).setVisible(true);
             }
         });
     }
+    
+    private void refreshtable() throws SQLException{
+        
+        List<Compte> listCompte = controlleur.routeVersListAllCompte();
+            
+            DefaultTableModel modelCompte = new DefaultTableModel();
+            
+            modelCompte.addColumn("Id");
+            modelCompte.addColumn("Solde");
+            modelCompte.addColumn("Id user");
+            modelCompte.addColumn("Id admin");
+            
+            for(Compte com : listCompte){
+                
+                modelCompte.addRow(new String[]{com.getIdcompte()+"",com.getSolde()+"",com.getIduser()+"",com.getIdadmin()+""});
+            }
+            
+            homepage.getTable().setModel(modelCompte);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonAdd;
     private javax.swing.JButton buttonCancel;
-    private javax.swing.JButton buttonOk;
+    private javax.swing.JButton buttonDelete;
+    private javax.swing.JButton buttonUpdate;
+    private javax.swing.JTextField champIdcompte;
     private javax.swing.JTextField champSolde;
     private javax.swing.JComboBox<String> comboBoxIdadmin;
     private javax.swing.JComboBox<String> comboBoxIduser;
@@ -256,5 +413,6 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel labelIdCompte;
     // End of variables declaration//GEN-END:variables
 }

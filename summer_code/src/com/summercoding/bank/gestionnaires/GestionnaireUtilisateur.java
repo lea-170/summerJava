@@ -40,4 +40,13 @@ public class GestionnaireUtilisateur {
     public Utilisateur getUtilisateurByIduser(int iduser) throws SQLException{
          return user.getOne(iduser);  
     }
+    
+    public void updateUser(int iduser,String login, String password,String nom,String prenom, LocalDate datenaiss,String genre,int idadmin) throws SQLException{
+        user.update(iduser, login, password, nom, prenom, datenaiss, genre, idadmin);
+    }
+    
+    public void deleteUser(int iduser) throws SQLException{
+        
+        user.delete(iduser);
+    }
 }

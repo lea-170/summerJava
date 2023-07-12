@@ -45,4 +45,10 @@ public class GestionnaireAdmin {
         
         admin.update(iadmin, login, password, nom);
     }
+    
+    //methode permettant de supprimer 
+    public void deleteAdmin(int idadmin) throws SQLException{
+        
+        admin.delete(idadmin);
+    }
 }

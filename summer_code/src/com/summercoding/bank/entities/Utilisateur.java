@@ -124,18 +124,19 @@ public class Utilisateur {
     // mise a jour d'un element dans la base de donnees 
     public void update (  int iduser, String login,  String password,  String nom ,String prenom , LocalDate datenaiss ,String genre ,int idadmin) throws SQLException{
         
-        String command = "UPDATE utilisateur SET login = ?, password = ?, nom = ? WHERE utilisateur.iduser = ?;";
+        String command = "UPDATE utilisateur SET iduser = ?,login = ?, password = ?, nom = ?,prenom = ?,datenaiss = ?,genre = ?,idadmin = ? WHERE utilisateur.iduser = ?;";
         PreparedStatement addstmt =
                  JDBC.getConnexion().prepareStatement(command);
             
-            addstmt.setObject(1,login);
-            addstmt.setObject(2,password);
-            addstmt.setObject(3,nom);
-            addstmt.setObject(4,prenom);
-            addstmt.setObject(5,datenaiss); 
-            addstmt.setObject(6,genre);
-            addstmt.setObject(7,idadmin);
-            addstmt.setObject(8,iduser);
+            addstmt.setObject(1,iduser);
+            addstmt.setObject(2,login);
+            addstmt.setObject(3,password);
+            addstmt.setObject(4,nom);
+            addstmt.setObject(5,prenom);
+            addstmt.setObject(6,datenaiss); 
+            addstmt.setObject(7,genre);
+            addstmt.setObject(8,idadmin);
+            addstmt.setObject(9,iduser);
             addstmt.execute();
        
  

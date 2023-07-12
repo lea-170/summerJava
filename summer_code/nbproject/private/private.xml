@@ -4,10 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/summer_academie/summer_java/summerJava/summer_code/src/com/summercoding/bank/gestionnaires/GestionnaireUtilisateur.java</file>
+            <file>file:/D:/summer_academie/summer_java/summerJava/summer_code/src/com/summercoding/bank/ui/JFrameAdmin.java</file>
             <file>file:/D:/summer_academie/summer_java/summerJava/summer_code/src/com/summercoding/bank/entities/Admin.java</file>
             <file>file:/D:/summer_academie/summer_java/summerJava/summer_code/src/com/summercoding/bank/gestionnaires/GestionnaireAdmin.java</file>
             <file>file:/D:/summer_academie/summer_java/summerJava/summer_code/src/com/summercoding/bank/controlleur/Controlleur.java</file>
-            <file>file:/D:/summer_academie/summer_java/summerJava/summer_code/src/com/summercoding/bank/ui/JFrameSaveCompte.java</file>
+            <file>file:/D:/summer_academie/summer_java/summerJava/summer_code/src/com/summercoding/bank/ui/JFrameSaveUtilisateur.java</file>
+            <file>file:/D:/summer_academie/summer_java/summerJava/summer_code/src/com/summercoding/bank/entities/Utilisateur.java</file>
             <file>file:/D:/summer_academie/summer_java/summerJava/summer_code/src/com/summercoding/bank/ui/JFrameHome.java</file>
             <file>file:/D:/summer_academie/summer_java/summerJava/summer_code/src/com/summercoding/bank/ui/JFrameLogin.java</file>
         </group>

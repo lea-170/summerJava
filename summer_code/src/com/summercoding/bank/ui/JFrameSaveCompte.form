@@ -23,7 +23,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -40,25 +43,30 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabel1" max="32767" attributes="0"/>
-                      <Component id="jLabel2" max="32767" attributes="0"/>
-                      <Component id="jLabel3" pref="90" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLabel1" max="32767" attributes="0"/>
+                          <Component id="jLabel2" max="32767" attributes="0"/>
+                          <Component id="jLabel3" max="32767" attributes="0"/>
+                          <Component id="labelIdCompte" pref="90" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="buttonAdd" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="buttonDelete" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="51" max="32767" attributes="0"/>
+                          <Component id="buttonUpdate" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="buttonCancel" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <Component id="champSolde" max="32767" attributes="0"/>
                       <Component id="comboBoxIduser" max="32767" attributes="0"/>
                       <Component id="comboBoxIdadmin" alignment="0" max="32767" attributes="0"/>
+                      <Component id="champIdcompte" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
-                  <Component id="buttonOk" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="buttonCancel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="25" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -77,13 +85,28 @@
                   </Group>
                   <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabel3" max="32767" attributes="0"/>
-                      <Component id="comboBoxIdadmin" pref="30" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="jLabel3" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="comboBoxIdadmin" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="26" max="32767" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="champIdcompte" pref="27" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="labelIdCompte" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="buttonOk" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="buttonAdd" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="buttonCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="buttonUpdate" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="buttonDelete" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               </Group>
@@ -131,12 +154,12 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JButton" name="buttonOk">
+        <Component class="javax.swing.JButton" name="buttonAdd">
           <Properties>
-            <Property name="text" type="java.lang.String" value="OK"/>
+            <Property name="text" type="java.lang.String" value="Add"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonOkActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonAddActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="buttonCancel">
@@ -146,6 +169,29 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCancelActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="buttonDelete">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Delete"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonDeleteActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="buttonUpdate">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Update"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonUpdateActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelIdCompte">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Id compte "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="champIdcompte">
         </Component>
       </SubComponents>
     </Container>
