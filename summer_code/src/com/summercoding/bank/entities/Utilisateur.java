@@ -97,7 +97,7 @@ public class Utilisateur {
         return idadmin;
     }
 
-    public void setIdAdmin(int admin) {
+    public void setIdAdmin(int idadmin) {
         this.idadmin = idadmin;
     }
     

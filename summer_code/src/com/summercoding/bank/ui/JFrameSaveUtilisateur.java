@@ -366,18 +366,65 @@ public class JFrameSaveUtilisateur extends javax.swing.JFrame {
             String idAdminString = ComboBoxAdmin.getSelectedItem().toString().split(" ")[0];
             int idAdmin = Integer.parseInt(idAdminString);
             
-            controlleur.routeVersSaveUtilisateur(login, password, nom, prenom, datenaiss, genre, idAdmin);
-
-            // JOptionPane.showMessageDialog(null, "Sucess");
-            champLogin.setText("");
-            champPassword.setText("");
-            champNom.setText("");
-            champPrenom.setText("");
-
-            //refresh table 
-            refreshTable();
+            List<Utilisateur> listUser = controlleur.routeVersListAllUtilisateur();
             
-            this.dispose();
+            if(login.equals("") || password.equals("") || nom.equals("") || prenom.equals("")){
+                
+                JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs indiqués!");
+                
+            }else{
+                
+                //Verification de la conformite de l'adresse mail
+                if(controlleur.isEmailValid(login)== false){
+                     
+                   JOptionPane.showMessageDialog(null, "Veuillez saisir votre email de cette forme. exple user@gmail.com");
+                         
+                }else{
+                    
+                     
+                    //verification de la conformite du mot de passe 
+                    if(controlleur.isPasswordValid(password)== false){
+                    
+                        JOptionPane.showMessageDialog(null, "-Votre mot de passe doit contenir au moins 8 caracteres.\n"
+                            + "-Doit contenir au moins une lettre majiscule.\n" + "-Doit contenir au mois une lettre une miniscule.\n" + "-Doit contenir au moins un chiffre.\n" + 
+                            "-Doit contenir au moins un caractere special parmi les suivants: !@#$%^&*()."
+                         );
+                    }else{
+                    
+                         /* Code permettant de verifier si un administrateur est deja enregistré dans la bd pour 
+                        eviter un double enregistrement on verifie cela 
+                        avec le login car deux administrateurs  ne sont pas supposes avoir un meme login*/
+                
+                        for (Utilisateur user : listUser){
+                    
+                            if(login.equals(user.getLogin())){
+                                 JOptionPane.showMessageDialog(null, "Utilisateur possede deja ce login. Veuillez entrer un autre login");
+                        
+                                return;
+                            }
+                        }
+                        controlleur.routeVersSaveUtilisateur(login, password, nom, prenom, datenaiss, genre, idAdmin);
+
+                         // JOptionPane.showMessageDialog(null, "Sucess");
+                         champLogin.setText("");
+                        champPassword.setText("");
+                        champNom.setText("");
+                        champPrenom.setText("");
+                
+                        //fermeture de la fenetre 
+                        this.dispose();
+                
+                        //refresh table 
+                        refreshTable();
+                    }
+            
+               
+                    
+                }
+                
+               
+            }
+           
             
         } catch (SQLException ex) {
             Logger.getLogger(JFrameSaveUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
@@ -440,7 +487,7 @@ public class JFrameSaveUtilisateur extends javax.swing.JFrame {
     private void buttonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateActionPerformed
         try {
             // TODO add your handling code here:
-            
+        
             String id = champIdUser.getText().toString();
             int iduser = Integer.parseInt(id);
             
@@ -469,16 +516,37 @@ public class JFrameSaveUtilisateur extends javax.swing.JFrame {
             String idAdminString = ComboBoxAdmin.getSelectedItem().toString().split(" ")[0];
             int idAdmin = Integer.parseInt(idAdminString);
             
-            controlleur.routeVersUpdateUser(iduser, login, password, nom, prenom, datenaiss, genre, idAdmin);
+            //Verification de la validite de l'email
+            if(controlleur.isEmailValid(login)== false){
+                     
+                   JOptionPane.showMessageDialog(null, "Veuillez saisir votre email de cette forme. exple user@gmail.com");
+                         
+                }else{
+                     
+                    //verification de la conformite du mot de passe 
+                    if(controlleur.isPasswordValid(password)== false){
+                    
+                        JOptionPane.showMessageDialog(null, "-Votre mot de passe doit contenir au moins 8 caracteres.\n"
+                            + "-Doit contenir au moins une lettre majiscule.\n" + "-Doit contenir au mois une lettre une miniscule.\n" + "-Doit contenir au moins un chiffre.\n" + 
+                            "-Doit contenir au moins un caractere special parmi les suivants: !@#$%^&*()."
+                         );
+                    }else{
+         
+                        controlleur.routeVersUpdateUser(iduser, login, password, nom, prenom, datenaiss, genre, idAdmin);
 
-            // JOptionPane.showMessageDialog(null, "Sucess");
-            champLogin.setText("");
-            champPassword.setText("");
-            champNom.setText("");
-            champPrenom.setText("");
+                        // JOptionPane.showMessageDialog(null, "Sucess");
+                        champLogin.setText("");
+                        champPassword.setText("");
+                        champNom.setText("");
+                        champPrenom.setText("");
 
-            //refresh table 
-            refreshTable();
+                        //refresh table 
+                        refreshTable();
+                    }
+                
+                }
+           
+            
         } catch (SQLException ex) {
             Logger.getLogger(JFrameSaveUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -559,6 +627,7 @@ public class JFrameSaveUtilisateur extends javax.swing.JFrame {
             modelUser.addRow(new String[]{us.getIduser() + "", us.getLogin(), us.getNom(), us.getPrenom(), us.getGenre(), us.getDatenaiss() + "", us.getIdAdmin() + ""});
         }
         
+        homepage.setQuelmenu("User");
         homepage.getTable().setModel(modelUser);
     }
 

@@ -21,7 +21,7 @@ public class JFrameLogin extends javax.swing.JFrame {
     Controlleur controlleur = new Controlleur();
     
     //creation d'un objet JframeHome
-    JFrameHome homepage = new JFrameHome();
+    JFrameHome homepage = new JFrameHome("Admin");
     
     /**
      * Creates new form JFrameLogin

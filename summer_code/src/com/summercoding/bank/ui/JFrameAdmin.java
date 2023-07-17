@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -229,21 +230,73 @@ public class JFrameAdmin extends javax.swing.JFrame {
             String password = champPassword.getText();
             String nom = champNom.getText();
             
-            controlleur.routeVersSaveAdmin(login, password, nom);
+            List<Admin> listAdmin = controlleur.routeVersListAllAdmin();
             
-            // fonction permettant de renvoyer un message a l'utilisateur 
-            JOptionPane.showMessageDialog(null, "Sucess");
+            if(login.equals("")|| password.equals("")|| nom.equals("")){
+                
+                JOptionPane.showMessageDialog(null, "Veuillez entrer toutes informations");
             
-            // permet de mettre les champs vides apres l'enregistrement
-            champLogin.setText("");
-            champPassword.setText("");
-            champNom.setText("");
+            }else{
+                
+                //verification de la conformite du mot de passe 
+                  if(controlleur.isPasswordValid(password)== false){
+                    
+                    JOptionPane.showMessageDialog(null, "-Votre mot de passe doit contenir au moins 8 caracteres.\n"
+                            + "-Doit contenir au moins une lettre majiscule.\n" + "-Doit contenir au mois une lettre une miniscule.\n" + "-Doit contenir au moins un chiffre.\n" + 
+                            "-Doit contenir au moins un caractere special parmi les suivants: !@#$%^&*()."
+                    );
+                  }else{
+                      
+                       // verification de la conformite du login sous forme d'email
+                    if(controlleur.isEmailValid(login)== false){
+                     
+                        JOptionPane.showMessageDialog(null, "Veuillez saisir votre email de cette forme. exple user@gmail.com");
+                         
+                    }else{
+                            
+                        /* Code permettant de verifier si un administrateur est deja enregistré dans la bd pour 
+                        eviter un double enregistrement on verifie cela 
+                        avec le login car deux administrateurs  ne sont pas supposes avoir un meme login*/
+                
+                        for(Admin ad : listAdmin) {
+                    
+                             if(login.equals(ad.getLogin())){
+                                JOptionPane.showMessageDialog(null, "Un administrateur possede deja ce Login. Veuillez entrer un autre");
+                        
+                                champLogin.setText("");
+                                champPassword.setText("");
+                                champNom.setText("");
             
-            this.dispose();
+                                return;
+                        
+                            }
+                        
+                        }
+                
+                        // Sauvergarde des informations 
+                
+                        controlleur.routeVersSaveAdmin(login, password, nom);
             
-            //refresh table 
-            refreshTable();
+                        // fonction permettant de renvoyer un message a l'utilisateur 
+                        //JOptionPane.showMessageDialog(null, "Sucess");
             
+                        // permet de mettre les champs vides apres l'enregistrement
+                        champLogin.setText("");
+                        champPassword.setText("");
+                        champNom.setText("");
+            
+                        //Fermeture de la fenetre 
+                        this.dispose();
+            
+                        //refresh table 
+                        refreshTable();
+                    
+                    }
+                      
+                }
+              
+            }
+        
         } catch (SQLException ex) {
             Logger.getLogger(JFrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
             
@@ -266,14 +319,33 @@ public class JFrameAdmin extends javax.swing.JFrame {
             String password = champPassword.getText();
             String nom = champNom.getText();
             
-            controlleur.routeVersUpdateAdmin(idadmin, login, password, nom);
+            //verification de la conformite de l'email
+            if(controlleur.isEmailValid(login)== false){
+                     
+                   JOptionPane.showMessageDialog(null, "Veuillez saisir votre email de cette forme. exple user@gmail.com");
+                         
+            }else{
+                if(controlleur.isPasswordValid(password)== false){
+                    
+                    JOptionPane.showMessageDialog(null, "-Votre mot de passe doit contenir au moins 8 caracteres.\n"
+                            + "-Doit contenir au moins une lettre majiscule.\n" + "-Doit contenir au mois une lettre une miniscule.\n" + "-Doit contenir au moins un chiffre.\n" + 
+                            "Doit contenir au moins un caractere special parmi les suivants: !@#$%^&*()."
+                    );
+                    
+                }else{
+                       
+                     controlleur.routeVersUpdateAdmin(idadmin, login, password, nom);
             
-            //fermeture de la fenetre 
-            this.dispose();
+                    //fermeture de la fenetre 
+                    this.dispose();
             
-            //mise a jour du table 
-            refreshTable();
-            
+                    //mise a jour du table 
+                    refreshTable();
+                }
+             
+                
+            }
+          
         } catch (SQLException ex) {
             Logger.getLogger(JFrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Veuillez contacter l'administrateur");
@@ -336,7 +408,8 @@ public class JFrameAdmin extends javax.swing.JFrame {
     }
     
     private void refreshTable() throws SQLException{
-        List<Admin> listAdmin  = controlleur.routeVersListAllAdmin();
+          
+         List<Admin> listAdmin  = controlleur.routeVersListAllAdmin();
             
             //instruction permettant de recuperer les valeurs de la table 
             DefaultTableModel model = new DefaultTableModel();
@@ -350,6 +423,7 @@ public class JFrameAdmin extends javax.swing.JFrame {
             for(Admin ad : listAdmin)
                 model.addRow(new String[]{ad.getIdadmin()+"", ad.getNom(), ad.getLogin()});
             
+           homepage.setQuelmenu("Admin");
            homepage.getTable().setModel(model);
     }
 

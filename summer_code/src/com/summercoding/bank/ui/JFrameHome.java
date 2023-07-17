@@ -28,12 +28,29 @@ public class JFrameHome extends javax.swing.JFrame {
     
     String quelmenu;
     
+    //status recuperer lors du login 
+    String status;
+    
 
     /**
      * Creates new form JFrameHome
+     * @param stat
      */
-    public JFrameHome() {
+    public JFrameHome(String stat) {
         initComponents();
+        
+        status = stat;
+        
+        if(status.equals("User")){
+            
+            menuAdmin.setVisible(false);
+            menuUser.setVisible(false);
+            menuCreerCompte.setVisible(false);
+            menuListerCompte.setVisible(false);
+            
+        }else{
+            menuInfo.setVisible(false);
+        }
     }
 
     /**
@@ -48,19 +65,26 @@ public class JFrameHome extends javax.swing.JFrame {
         jMenu10 = new javax.swing.JMenu();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         jMenuBar2 = new javax.swing.JMenuBar();
-        jMenu6 = new javax.swing.JMenu();
+        menuAdmin = new javax.swing.JMenu();
         menuCreerAdmin = new javax.swing.JMenuItem();
         menuListerAdmin = new javax.swing.JMenuItem();
-        jMenu7 = new javax.swing.JMenu();
+        menuUser = new javax.swing.JMenu();
         menuCreerUser = new javax.swing.JMenuItem();
         menuListerUser = new javax.swing.JMenuItem();
-        jMenu8 = new javax.swing.JMenu();
+        menuCompte = new javax.swing.JMenu();
         menuCreerCompte = new javax.swing.JMenuItem();
         menuListerCompte = new javax.swing.JMenuItem();
+        menuDepot = new javax.swing.JMenuItem();
+        menuRetrait = new javax.swing.JMenuItem();
+        menuVirement = new javax.swing.JMenuItem();
+        menuInfo = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
@@ -78,6 +102,12 @@ public class JFrameHome extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(jTable1);
+
+        jMenu3.setText("File");
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Edit");
+        jMenuBar1.add(jMenu4);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,10 +137,10 @@ public class JFrameHome extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(table);
 
-        jMenu6.setText("Admin");
-        jMenu6.addMouseListener(new java.awt.event.MouseAdapter() {
+        menuAdmin.setText("Admin");
+        menuAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu6MouseClicked(evt);
+                menuAdminMouseClicked(evt);
             }
         });
 
@@ -120,7 +150,7 @@ public class JFrameHome extends javax.swing.JFrame {
                 menuCreerAdminActionPerformed(evt);
             }
         });
-        jMenu6.add(menuCreerAdmin);
+        menuAdmin.add(menuCreerAdmin);
 
         menuListerAdmin.setText("Lister");
         menuListerAdmin.addActionListener(new java.awt.event.ActionListener() {
@@ -128,14 +158,14 @@ public class JFrameHome extends javax.swing.JFrame {
                 menuListerAdminActionPerformed(evt);
             }
         });
-        jMenu6.add(menuListerAdmin);
+        menuAdmin.add(menuListerAdmin);
 
-        jMenuBar2.add(jMenu6);
+        jMenuBar2.add(menuAdmin);
 
-        jMenu7.setText("User");
-        jMenu7.addMouseListener(new java.awt.event.MouseAdapter() {
+        menuUser.setText("User");
+        menuUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu7MouseClicked(evt);
+                menuUserMouseClicked(evt);
             }
         });
 
@@ -145,7 +175,7 @@ public class JFrameHome extends javax.swing.JFrame {
                 menuCreerUserActionPerformed(evt);
             }
         });
-        jMenu7.add(menuCreerUser);
+        menuUser.add(menuCreerUser);
 
         menuListerUser.setText("Lister");
         menuListerUser.addActionListener(new java.awt.event.ActionListener() {
@@ -153,11 +183,11 @@ public class JFrameHome extends javax.swing.JFrame {
                 menuListerUserActionPerformed(evt);
             }
         });
-        jMenu7.add(menuListerUser);
+        menuUser.add(menuListerUser);
 
-        jMenuBar2.add(jMenu7);
+        jMenuBar2.add(menuUser);
 
-        jMenu8.setText("Compte");
+        menuCompte.setText("Compte");
 
         menuCreerCompte.setText("Créer");
         menuCreerCompte.addActionListener(new java.awt.event.ActionListener() {
@@ -165,7 +195,7 @@ public class JFrameHome extends javax.swing.JFrame {
                 menuCreerCompteActionPerformed(evt);
             }
         });
-        jMenu8.add(menuCreerCompte);
+        menuCompte.add(menuCreerCompte);
 
         menuListerCompte.setText("Lister");
         menuListerCompte.addActionListener(new java.awt.event.ActionListener() {
@@ -173,9 +203,21 @@ public class JFrameHome extends javax.swing.JFrame {
                 menuListerCompteActionPerformed(evt);
             }
         });
-        jMenu8.add(menuListerCompte);
+        menuCompte.add(menuListerCompte);
 
-        jMenuBar2.add(jMenu8);
+        menuDepot.setText("Depot");
+        menuCompte.add(menuDepot);
+
+        menuRetrait.setText("Retrait");
+        menuCompte.add(menuRetrait);
+
+        menuVirement.setText("Virement");
+        menuCompte.add(menuVirement);
+
+        menuInfo.setText("Infos Compte");
+        menuCompte.add(menuInfo);
+
+        jMenuBar2.add(menuCompte);
 
         jMenu1.setText("A propos");
         jMenuBar2.add(jMenu1);
@@ -214,6 +256,7 @@ public class JFrameHome extends javax.swing.JFrame {
             
             // appeler de la methode routeVersListAllutilisateur
             List<Utilisateur> listUser  = controlleur.routeVersListAllUtilisateur();
+            //System.out.println(quelmenu);
        
             // instruction permettant de recuperer des elements et les mettre dans note table 
             DefaultTableModel modelUser = new DefaultTableModel();
@@ -232,7 +275,12 @@ public class JFrameHome extends javax.swing.JFrame {
             for(Utilisateur us : listUser){
                 modelUser.addRow(new String[]{us.getIduser()+"", us.getLogin(), us.getNom(),us.getPrenom(),us.getGenre(),us.getDatenaiss()+"",us.getIdAdmin()+""});
             }
+            
+            
+            
             table.setModel(modelUser);
+            
+           
             
         } catch (SQLException ex) {
             Logger.getLogger(JFrameHome.class.getName()).log(Level.SEVERE, null, ex);
@@ -267,6 +315,7 @@ public class JFrameHome extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             List<Admin> listAdmin  = controlleur.routeVersListAllAdmin();
+           // System.out.println(quelmenu);
             
             //instruction permettant de recuperer les valeurs de la table 
             DefaultTableModel model = new DefaultTableModel();
@@ -279,8 +328,11 @@ public class JFrameHome extends javax.swing.JFrame {
             //parcours de la bd pour recuperer la liste des admins (id ,nom,login)
             for(Admin ad : listAdmin)
                 model.addRow(new String[]{ad.getIdadmin()+"", ad.getNom(), ad.getLogin()});
-            
-           table.setModel(model);
+           
+        
+            table.setModel(model);
+           
+           
            
         } catch (SQLException ex) {
             Logger.getLogger(JFrameHome.class.getName()).log(Level.SEVERE, null, ex);
@@ -296,7 +348,7 @@ public class JFrameHome extends javax.swing.JFrame {
             // TODO add your handling code here:
             
             List<Compte> listCompte = controlleur.routeVersListAllCompte();
-            
+           // System.out.println(quelmenu);
             DefaultTableModel modelCompte = new DefaultTableModel();
             
             modelCompte.addColumn("Id");
@@ -318,12 +370,12 @@ public class JFrameHome extends javax.swing.JFrame {
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
         // TODO add your handling code here:
-        
+      
         int numeroLigne = table.getSelectedRow();
         TableModel model = table.getModel();
        
         //cas ou le menu c'est l'admin
-
+        
         if(quelmenu.equals("Admin")){
             
             //lecture d'une celllule du tableau
@@ -362,16 +414,17 @@ public class JFrameHome extends javax.swing.JFrame {
         }
         
        
+       
         
     }//GEN-LAST:event_tableMouseClicked
 
-    private void jMenu7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu7MouseClicked
+    private void menuUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuUserMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenu7MouseClicked
+    }//GEN-LAST:event_menuUserMouseClicked
 
-    private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
+    private void menuAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAdminMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenu6MouseClicked
+    }//GEN-LAST:event_menuAdminMouseClicked
 
     private void menuCreerCompteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCreerCompteActionPerformed
         // TODO add your handling code here:
@@ -410,11 +463,12 @@ public class JFrameHome extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JFrameHome().setVisible(true);
+                new JFrameHome("Admin").setVisible(true);
             }
         });
     }
-
+    
+    // getter et setter de l'attribut table 
     public JTable getTable() {
         return table;
     }
@@ -424,25 +478,51 @@ public class JFrameHome extends javax.swing.JFrame {
     }
     
     
+    // getter et setter de quelmenu
+    public String getQuelmenu() {
+        return quelmenu;
+    }
+
+    public void setQuelmenu(String quelmenu) {
+        this.quelmenu = quelmenu;
+    }
+    
+    //getters et setters de status 
+    
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JMenu menuAdmin;
+    private javax.swing.JMenu menuCompte;
     private javax.swing.JMenuItem menuCreerAdmin;
     private javax.swing.JMenuItem menuCreerCompte;
     private javax.swing.JMenuItem menuCreerUser;
+    private javax.swing.JMenuItem menuDepot;
+    private javax.swing.JMenuItem menuInfo;
     private javax.swing.JMenuItem menuListerAdmin;
     private javax.swing.JMenuItem menuListerCompte;
     private javax.swing.JMenuItem menuListerUser;
+    private javax.swing.JMenuItem menuRetrait;
+    private javax.swing.JMenu menuUser;
+    private javax.swing.JMenuItem menuVirement;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

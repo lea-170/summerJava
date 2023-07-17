@@ -48,7 +48,7 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
                  
              } else{
                  
-                 if(quelaction.equals("Update")){
+                 if(quelaction.equalsIgnoreCase("Update")){
                      
                      try {
                          Compte compte = controlleur.routeVersGetDetailsCompte(idcompte);
@@ -58,6 +58,8 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
                          
                          Utilisateur user = controlleur.routeVersGetUtilisateurIduser(compte.getIduser());
                          comboBoxIduser.setSelectedItem(user.getIduser() + " " + user.getLogin());
+                         
+                         comboBoxIdadmin.setEnabled(true);
                          
                          Admin admin = controlleur.routeVersGetAdminIdadmin(user.getIdAdmin());
                          comboBoxIdadmin.setSelectedItem(admin.getIdadmin()+ " " + admin.getLogin());
@@ -263,7 +265,29 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
              
              String  soldeString = champSolde.getText();
              float solde = Float.parseFloat(soldeString);
+             if(soldeString.equals("")){
+                 JOptionPane.showMessageDialog(null, "Veuillez remplir l'information manquantes");
+             }else{
+                 
+                 String idAdminString =  comboBoxIdadmin.getSelectedItem().toString().split(" ")[0];
+                int idAdmin = Integer.parseInt(idAdminString);
+            
              
+                String iduserString =  comboBoxIduser.getSelectedItem().toString().split(" ")[0];
+                int iduser = Integer.parseInt(iduserString);
+          
+             
+                controlleur.routeVersSaveCompte(solde, iduser, idAdmin);
+                //JOptionPane.showMessageDialog(null, "Enresgistrement reussi");
+             
+             
+                champSolde.setText("");
+             
+                this.dispose();
+             
+                refreshtable();
+                 
+             }
              String idAdminString =  comboBoxIdadmin.getSelectedItem().toString().split(" ")[0];
              int idAdmin = Integer.parseInt(idAdminString);
             
@@ -397,6 +421,7 @@ public class JFrameSaveCompte extends javax.swing.JFrame {
                 modelCompte.addRow(new String[]{com.getIdcompte()+"",com.getSolde()+"",com.getIduser()+"",com.getIdadmin()+""});
             }
             
+            homepage.setQuelmenu("Compte");
             homepage.getTable().setModel(modelCompte);
     }
 

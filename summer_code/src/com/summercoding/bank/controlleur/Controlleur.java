@@ -13,6 +13,8 @@ import com.summercoding.bank.gestionnaires.GestionnaireUtilisateur;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -113,5 +115,41 @@ public class Controlleur {
    public void routeVersDeleteUser(int iduser) throws SQLException{
        
        gestionnaireUser.deleteUser(iduser);
+   }
+   
+   // methode permettant de verifier la valide du login en email
+   public boolean isEmailValid(String login){
+       boolean isValid = false;
+       
+       // Expression de notre email
+       String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Za-z]{2,4}$";
+       
+       CharSequence inputStr = login;
+       
+       Pattern pattern = Pattern.compile(expression,Pattern.CASE_INSENSITIVE);
+       
+       Matcher matcher = pattern.matcher(inputStr);
+       
+       // verification de la validite du login
+       if(matcher.matches()){
+           
+           isValid = true;
+           
+       }
+       
+       return isValid;
+   }
+   
+   // methode permettant de verifier la validite du mot de passe 
+   public boolean isPasswordValid(String password){
+       
+       String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+       
+       Pattern pattern = Pattern.compile(regex);
+       Matcher matcher = pattern.matcher(password);
+       
+       
+       return matcher.matches();
+     
    }
 }
